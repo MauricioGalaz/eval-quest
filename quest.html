@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Evaluación HTML - CFT Limache</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+    box-sizing:border-box;
+}
+body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0d6efd,#0b3c74);
+    font-family:'Segoe UI',Arial,sans-serif;
+}
+.card{
+    width:100%;
+    max-width:750px;
+    background:#fff;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+}
+h1,h2{
+    text-align:center;
+    margin-bottom:10px;
+}
+.sub{
+    text-align:center;
+    font-size:14px;
+    color:#555;
+    margin-bottom:25px;
+}
+input[type=text],
+input[type=password]{
+    width:100%;
+    padding:12px;
+    margin-top:5px;
+    margin-bottom:15px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:15px;
+}
+
+.question{
+    margin-bottom:18px;
+    padding:15px;
+    border-radius:10px;
+    background:#f8f9fa;
+}
+.question strong{
+    display:block;
+    margin-bottom:8px;
+}
+button{
+    width:100%;
+    padding:14px;
+    font-size:16px;
+    border:none;
+    border-radius:10px;
+    background:#0d6efd;
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+}
+button:hover{
+    background:#084298;
+}
+.hidden{
+    display:none;
+}
+.footer{
+    text-align:center;
+    margin-top:15px;
+    font-size:13px;
+    color:#777;
+}
+.error{
+    color:red;
+    text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="card" id="login">
+<h2>Acceso Evaluación</h2>
+<p class="sub">Informática · CFT Limache<br>Docente: Mauricio Galaz</p>
+
+<input type="password" id="pass" placeholder="Contraseña de acceso">
+<button onclick="login()">Ingresar</button>
+<p id="error" class="error"></p>
+</div>
+
+<!-- EVALUACIÓN -->
+<div class="card hidden" id="exam">
+<h1>Evaluación HTML</h1>
+<p class="sub">Carrera Informática · CFT Limache</p>
+
+<form action="https://formsubmit.co/profemauriciogalaz@gmail.com" method="POST">
+<input type="hidden" name="_subject" value="Evaluación HTML - CFT Limache">
+<input type="hidden" name="_captcha" value="false">
+<input type="hidden" name="_template" value="table">
+<input type="radio" name="Pregunta" ...>
+
+
+<label>Nombre del Estudiante</label>
+<input type="text" name="Estudiante" required>
+
+<div id="questions"></div>
+
+<button type="submit">📨 Enviar Evaluación</button>
+</form>
+
+<div class="footer">
+Sistema de Evaluación · Docente Mauricio Galaz
+</div>
+</div>
+
+<script>
+function login(){
+    if(document.getElementById("pass").value==="cft"){
+        document.getElementById("login").classList.add("hidden");
+        document.getElementById("exam").classList.remove("hidden");
+        loadQuestions();
+    }else{
+        document.getElementById("error").innerText="Contraseña incorrecta";
+    }
+}
+
+const bancoPreguntas = [
+{q:"¿Qué significa HTML?",a:["Lenguaje de programación","Lenguaje de marcado","Base de datos"]},
+{q:"¿Qué etiqueta contiene el contenido visible?",a:["HEAD","BODY","HTML"]},
+{q:"¿Qué etiqueta crea un párrafo?",a:["DIV","P","SPAN"]},
+{q:"¿Etiqueta para imagen?",a:["IMG","PIC","PHOTO"]},
+{q:"¿Qué es CSS?",a:["Lenguaje estilos","Base datos","Servidor"]},
+{q:"¿Selector por id se escribe con?",a:[".","#","*"]},
+{q:"¿Selector por clase se escribe con?",a:["#",".","@"]},
+{q:"¿Etiqueta para enlaces?",a:["A","LINK","HREF"]},
+{q:"¿Etiqueta para listas no ordenadas?",a:["OL","UL","LI"]},
+{q:"¿Formato ideal para fotos?",a:["GIF","PNG","JPG"]},
+/* (continúan las 100 preguntas que ya tienes) */
+];
+
+function loadQuestions(){
+    const qDiv = document.getElementById("questions");
+    qDiv.innerHTML = "";
+
+    bancoPreguntas
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 20)
+        .forEach((p, i) => {
+        let html = `<div class="question">
+            <strong>${i+1}. ${p.q}</strong><br>`;
+        p.a.forEach(op => {
+            html += `
+            <label>
+                <input type="radio" name="Pregunta_${i}" value="${op}" required>
+                ${op}
+            </label><br>`;
+        });
+        html += `</div>`;
+        qDiv.innerHTML += html;
+        });
+}
+
+
+</script>
+
+</body>
+</html>
